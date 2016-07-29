@@ -1,0 +1,113 @@
+排名的文件有点难，想了挺久不懂，问同学（又不是面对面）也是半桶水的样子，就看了几份同学的，稍微借鉴了一下。
+还有就是怎样才能够把个个分散的模块链接到一起也让我思考了很久。
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+/*玩家信息  结构体*/
+struct player
+{
+	char name [20];
+	int js;
+	int win;
+};
+/*主函数*/
+void main()
+{
+	int n,dnc;
+	int k;
+	int panshu();
+    /*struct player p;*/
+	if(k=getchar())
+	{
+
+	int wanjia(struct player);
+	srand((unsigned)time(NULL));
+	n=rand()%(101-0+1)+0;
+
+	dnc=n%3;
+	switch (dnc)
+	{
+	case 0: printf("电脑出剪刀");break;
+	case 1: printf("电脑出石头");break;
+	case 2: printf("电脑出布");break;
+
+	}
+
+	}
+}
+/*菜单项*/
+int panshu()
+{
+	char k;
+	printf("******************************************************");
+	printf("*                                                    *");
+	printf("*                 剪刀石头布游戏                     *");
+	printf("*                                                    *");
+	printf("*     1-参与游戏   2-观看排名  3-退出游戏            *");
+	printf("*                                                    *");
+	printf("******************************************************");
+	
+	printf("请选择：");
+	k=getchar();
+	return k;
+}
+
+
+/*判断输赢*/
+{
+	int a,i,n,fs=0;
+	printf("请输入你想玩的局数：");
+	scanf("%d",&n);
+
+	printf("0-剪刀 1-石头 2-布 ");
+    for ( i=0; i<=n; i++ )
+	{
+	printf("玩家输入：");
+
+	scanf("%d",&a);
+
+	if (dnc==0)
+	{
+		if(a==0) printf("平局");
+		else if (a==1) {
+			printf("你赢了");
+			fs++;
+		}
+		else printf("你输了");
+	}
+
+	if (dnc==1)
+	{
+		if (a==0) printf("你输了");
+		else if (a==1) printf("平局");
+		else {
+			printf("你赢了");
+			fs++;
+		}
+	}
+
+	if (dnc==2)
+	{
+		if (a==0) {
+			printf("你赢了");
+			fs++;
+		}
+		else if (a==1) printf("你输了");
+		else printf("平局");
+	}
+	}
+}
+/*排名信息*/
+{
+	char name;
+
+	printf("留下大名");
+
+	scanf("%c",&name);
+
+
+
+}
