@@ -1,0 +1,212 @@
+/*剪刀石头布游戏  用户自定义  想玩几局玩几局 */
+/*部分参考同学 - 陈颖恒 蔡志豪 是主力  ....  */
+/* 部分参考网站 github */
+/*庄思城  材料成型及控制工程 2 班 学号 ： 201541110202*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <time.h>/*随机*/
+/*定义玩家结构体*/
+struct Student
+{
+	char name[20];
+	int count;
+	int win;
+}student;
+/*抄的*/
+void save_data(struct Student *p)
+{
+	FILE *fp;
+	struct Student data=*p;
+	if((fp=fopen("a.dat","ab+"))==NULL)
+	{
+		printf("打开失败\n");
+		exit(0);
+	}
+	fwrite(&data,sizeof(struct Student),1,fp);
+	if(fclose(fp))
+	{
+		printf("关闭失败\n");
+		exit(0);
+	}
+}
+/*输入规则*/
+void shouming()
+{
+	int i;
+for(i=0;i<50;i++)
+		putchar('*');
+	printf("\n1-代表剪刀，2-代表石头，3-代表布,0-退出比赛\n");
+	for(i=0;i<50;i++)
+		putchar('*');
+	printf("\n");
+}
+	/*玩家出*/
+int scan_data()
+{
+	int get;
+	printf("\n请输入剪刀石头布：");		
+	while(1)
+	{
+		scanf("%d",&get);
+			if(get>=0&&get<=3 )
+				break;
+			printf("输入错误，请重新输入。\n");
+	}
+	return get;
+}
+	/*电脑出*/
+int computer()
+{
+	int i;
+	switch(i=rand() % 3)
+	{
+	case 1:
+		printf("电脑出的是剪刀。");	
+		break;
+	case 2:
+		printf("电脑出的是石头。");
+		break;
+	case 3:
+		printf("电脑出的是布。");
+		break;
+	}
+	return i;
+}
+void win_or_lose(int get,int i,int *win,int *lose,int *count){
+	/*进行判断*/
+	switch(get-i)
+	{
+	case 0:
+		printf("平局.\n");
+		++*count;
+		break;
+	case 1:
+	case -2:
+		printf("you win.\n");
+		++*win;
+		++*count;
+		break;
+	case -1:
+	case 2:
+		printf("you lose.\n");
+		++*lose;
+		++*count;
+		break;
+	}
+}
+void jingsai()/*比赛模式   有排名*/
+{
+	int get,i,count=0,win=0,lose=0;
+	srand(time(0));
+	shouming();
+	while(1){
+	get=scan_data();
+	if(get==0)
+		break;
+	i=computer();
+	win_or_lose(get,i,&win,&lose,&count);
+	}
+	printf("胜利：%d盘\t失败：%d盘\t总盘数：%d盘\n",win,lose,count);
+	printf("大侠，请留名:");
+	getchar();
+	gets(student.name);
+	student.win=win;
+	student.count=count;
+	save_data(&student);
+}
+void practice()/*练习模式   不排名*/
+{	
+	int get,i,count=0,win=0,lose=0;
+	srand(time(0));
+	shouming();
+	while(1){
+	get=scan_data();
+	if(get==0)
+		break;
+	i=computer();
+	win_or_lose(get,i,&win,&lose,&count);
+	}
+	printf("胜利：%d盘\t失败：%d盘\t总盘数：%d盘\n",win,lose,count);
+}
+
+
+void star()/*进入游戏*/
+{
+	int i;
+	for(i=0;i<50;i++)
+		putchar('*');
+	printf("\n1-竞赛模式\t2-练习模式\n");
+	for(i=0;i<50;i++)
+		putchar('*');
+	printf("\n");
+	scanf("%d",&i);
+	switch(i)
+	{
+	case 1:
+		jingsai();
+		break;
+	case 2:
+		practice();break;
+	default:
+		printf("输入错误，请重新输入\n");
+		break;
+	}	
+}
+	
+int menu()/*开始菜单*/
+{
+	int i;
+    printf("******************************************************");
+	printf("\n*                                                    *\n");
+	printf("*                 剪刀石头布游戏                     *\n");
+	printf("*                                                    *");
+	printf("\n*     1-参与游戏   2-观看排名  0-退出游戏            *\n");
+	printf("*                                                    *\n");
+	printf("******************************************************");
+	scanf("%d",&i);
+	return i;
+}
+/* 抄的*.*  */
+void show()
+{
+	FILE *fp;
+	struct Student data;
+	if((fp=fopen("a.dat","ab+"))==NULL)
+	{
+		printf("打开失败\n");
+		exit(0);
+	}
+	fread(&data,sizeof(struct Student),1,fp);
+	while(!feof(fp))
+	{
+		printf("姓名\t胜局\t总盘数\n");
+		printf("%-8s%-8d%-8d\n",data.name,data.win,data.count);//输出当前这条记录
+		fread(&data,sizeof(struct Student),1,fp);
+	}
+	if(fclose(fp))
+	{
+		printf("关闭失败\n");
+		exit(0);
+	}
+}
+void main()
+{
+	int js;
+	FILE *fp=NULL;
+	while((js=menu())!=0)
+	{
+		switch(js)
+		{
+		case 1:
+			star();break;
+		case 2:
+			show();
+			break;
+		default:
+			printf("输入错误，请重新输入\n");
+			break;
+		}
+	}
+}
